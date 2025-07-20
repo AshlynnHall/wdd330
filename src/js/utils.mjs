@@ -7,7 +7,8 @@ export function qs(selector, parent = document) {
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
 }
 // save data to local storage
 export function setLocalStorage(key, data) {
@@ -20,4 +21,46 @@ export function setClick(selector, callback) {
     callback();
   });
   qs(selector).addEventListener("click", callback);
+}
+
+// Get URL parameter
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+}
+
+// Template rendering functions
+export function renderWithTemplate(templateFn, parentElement, data, callback) {
+  templateFn().then((html) => {
+    parentElement.innerHTML = html;
+    if (callback) {
+      callback(data);
+    }
+  });
+}
+
+export function loadTemplate(path) {
+  return async function () {
+    const res = await fetch(path);
+    if (res.ok) {
+      const html = await res.text();
+      return html;
+    }
+  };
+}
+
+export function loadHeaderFooter() {
+  const headerTemplateFn = loadTemplate("/partials/header.html");
+  const footerTemplateFn = loadTemplate("/partials/footer.html");
+  
+  const headerEl = document.querySelector("#main-header");
+  const footerEl = document.querySelector("#main-footer");
+  
+  if (headerEl) {
+    renderWithTemplate(headerTemplateFn, headerEl);
+  }
+  if (footerEl) {
+    renderWithTemplate(footerTemplateFn, footerEl);
+  }
 }
