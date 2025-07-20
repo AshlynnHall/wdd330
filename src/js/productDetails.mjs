@@ -12,6 +12,9 @@ function addToCart() {
   
   // Save the updated cart back to localStorage
   setLocalStorage("so-cart", cartItems);
+  
+  // Simple confirmation
+  alert("Product added to cart!");
 }
 
 function renderProductDetails() {
@@ -26,12 +29,24 @@ function renderProductDetails() {
 }
 
 export default async function productDetails(productId) {
-  // use findProductById to get the details for the current product
-  product = await findProductById(productId);
-  
-  // once we have the product details we can render out the HTML
-  renderProductDetails();
-  
-  // add a listener to Add to Cart button
-  document.getElementById("addToCart").addEventListener("click", addToCart);
+  try {
+    // use findProductById to get the details for the current product
+    product = await findProductById(productId);
+    
+    if (!product) {
+      console.error(`Product with ID ${productId} not found`);
+      return;
+    }
+    
+    // once we have the product details we can render out the HTML
+    renderProductDetails();
+    
+    // add a listener to Add to Cart button
+    const addToCartButton = document.getElementById("addToCart");
+    if (addToCartButton) {
+      addToCartButton.addEventListener("click", addToCart);
+    }
+  } catch (error) {
+    console.error("Error in productDetails:", error);
+  }
 }
