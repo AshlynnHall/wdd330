@@ -58,7 +58,10 @@ export function loadHeaderFooter() {
   const footerEl = document.querySelector("#main-footer");
   
   if (headerEl) {
-    renderWithTemplate(headerTemplateFn, headerEl);
+    renderWithTemplate(headerTemplateFn, headerEl, null, () => {
+      // Update cart count after header is loaded
+      updateCartCount();
+    });
   }
   if (footerEl) {
     renderWithTemplate(footerTemplateFn, footerEl);
@@ -83,4 +86,22 @@ export function animateCartIcon() {
   }
   
   tryAnimate();
+}
+
+// Update cart count display
+export function updateCartCount() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const cartCountElement = document.getElementById("cart-count");
+  
+  if (cartCountElement) {
+    const count = cartItems.length;
+    cartCountElement.textContent = count;
+    
+    // Hide the count if cart is empty
+    if (count === 0) {
+      cartCountElement.classList.add("hide");
+    } else {
+      cartCountElement.classList.remove("hide");
+    }
+  }
 }

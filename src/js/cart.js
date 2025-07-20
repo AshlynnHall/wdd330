@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartCount } from "./utils.mjs";
 
 // Load header and footer
 loadHeaderFooter();
@@ -11,6 +11,9 @@ function renderCartContents() {
     cartItems = [cartItems];
     setLocalStorage("so-cart", cartItems); // Update to new format
   }
+  
+  // Update cart count display
+  updateCartCount();
   
   // Check if cart is empty or null
   if (!cartItems || cartItems.length === 0) {

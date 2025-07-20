@@ -28,7 +28,7 @@ img {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 10px 10px 0 10px;
 }
 .logo {
   line-height: 60px;
@@ -106,6 +106,28 @@ button {
 .cart svg {
   width: 25px;
 }
+
+.cart-count {
+  position: absolute;
+  top: -3px;
+  right: -8px;
+  background: orange;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 20px;
+}
+
+.cart-count.hide {
+  display: none;
+}
+
 .cart:hover svg {
   fill: gray;
 }
