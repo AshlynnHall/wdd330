@@ -12,9 +12,6 @@ function addToCart() {
   
   // Save the updated cart back to localStorage
   setLocalStorage("so-cart", cartItems);
-  
-  // Simple confirmation
-  alert("Product added to cart!");
 }
 
 function renderProductDetails() {
