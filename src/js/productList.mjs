@@ -2,8 +2,16 @@ import { getData } from "./productData.mjs";
 
 // Template function to create product card HTML
 function productCardTemplate(product) {
-  return `<li class="product-card">
+  // Calculate discount percentage (choppy way)
+  let discountHtml = "";
+  if (product.SuggestedRetailPrice > product.FinalPrice) {
+    const discountPercent = Math.round(((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100);
+    discountHtml = `<div style="background: red; color: white; padding: 2px 4px; font-size: 12px; position: absolute; top: 5px; right: 5px; border: 2px solid black;">-${discountPercent}%</div>`;
+  }
+  
+  return `<li class="product-card" style="position: relative;">
     <a href="product_pages/?product=${product.Id}">
+      ${discountHtml}
       <img
         src="${product.Image}"
         alt="${product.Name}"

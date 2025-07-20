@@ -19,11 +19,33 @@ function renderCartContents() {
         <p>Your cart is empty</p>
         <a href="/index.html">Continue Shopping</a>
       </li>`;
+    // Hide the cart total
+    document.querySelector(".cart-footer").classList.add("hide");
     return;
   }
   
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  
+  // Calculate and display total
+  renderCartTotal(cartItems);
+}
+
+function calculateTotal(cartItems) {
+  return cartItems.reduce((total, item) => {
+    return total + parseFloat(item.FinalPrice);
+  }, 0);
+}
+
+function renderCartTotal(cartItems) {
+  const total = calculateTotal(cartItems);
+  const cartFooter = document.querySelector(".cart-footer");
+  const cartTotal = document.querySelector(".cart-total");
+  
+  if (cartFooter && cartTotal) {
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+    cartFooter.classList.remove("hide");
+  }
 }
 
 function cartItemTemplate(item) {
