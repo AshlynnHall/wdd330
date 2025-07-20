@@ -64,3 +64,23 @@ export function loadHeaderFooter() {
     renderWithTemplate(footerTemplateFn, footerEl);
   }
 }
+
+// Cart animation function
+export function animateCartIcon() {
+  // Try to find the cart element, wait a bit if not found (header might still be loading)
+  function tryAnimate(attempts = 0) {
+    const cartElement = document.querySelector(".cart");
+    
+    if (cartElement) {
+      cartElement.classList.add("cart-animate");
+      // Remove the animation class after animation completes
+      setTimeout(() => {
+        cartElement.classList.remove("cart-animate");
+      }, 1000); // Animation duration
+    } else if (attempts < 5) {
+      setTimeout(() => tryAnimate(attempts + 1), 100);
+    }
+  }
+  
+  tryAnimate();
+}
