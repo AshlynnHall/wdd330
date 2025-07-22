@@ -50,22 +50,35 @@ export function loadTemplate(path) {
   };
 }
 
-export function loadHeaderFooter() {
+export async function loadHeaderFooter() {
   const headerTemplateFn = loadTemplate("/partials/header.html");
   const footerTemplateFn = loadTemplate("/partials/footer.html");
   
   const headerEl = document.querySelector("#main-header");
   const footerEl = document.querySelector("#main-footer");
   
+  const promises = [];
+  
   if (headerEl) {
-    renderWithTemplate(headerTemplateFn, headerEl, null, () => {
-      // Update cart count after header is loaded
-      updateCartCount();
+    const headerPromise = new Promise((resolve) => {
+      renderWithTemplate(headerTemplateFn, headerEl, null, () => {
+        // Update cart count after header is loaded
+        updateCartCount();
+        resolve();
+      });
     });
+    promises.push(headerPromise);
   }
+  
   if (footerEl) {
-    renderWithTemplate(footerTemplateFn, footerEl);
+    const footerPromise = new Promise((resolve) => {
+      renderWithTemplate(footerTemplateFn, footerEl, null, resolve);
+    });
+    promises.push(footerPromise);
   }
+  
+  // Wait for both header and footer to load
+  await Promise.all(promises);
 }
 
 // Cart animation function
