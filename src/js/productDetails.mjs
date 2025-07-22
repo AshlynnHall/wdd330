@@ -3,6 +3,8 @@ import { setLocalStorage, getLocalStorage, animateCartIcon, updateCartCount, get
 import { showProductBreadcrumb } from "./breadcrumb.mjs";
 
 let product = {};
+let currentImageIndex = 0;
+let allImages = [];
 
 function addToCart() {
   // Get existing cart items or start with an empty array
@@ -130,6 +132,73 @@ async function loadRecommendations() {
   }
 }
 
+function setupImageCarousel() {
+  // Gather all images
+  allImages = [];
+  
+  // Add primary image
+  if (product.Images?.PrimaryLarge) {
+    allImages.push({
+      large: product.Images.PrimaryLarge,
+      medium: product.Images.PrimaryMedium || product.Images.PrimaryLarge,
+      small: product.Images.PrimarySmall || product.Images.PrimaryMedium || product.Images.PrimaryLarge
+    });
+  }
+  
+  // Add extra images if they exist
+  if (product.Images?.ExtraImages && Array.isArray(product.Images.ExtraImages)) {
+    product.Images.ExtraImages.forEach(extraImage => {
+      allImages.push({
+        large: extraImage.Src || extraImage,
+        medium: extraImage.Src || extraImage,
+        small: extraImage.Src || extraImage
+      });
+    });
+  }
+  
+  // If we have more than one image, show thumbnails
+  if (allImages.length > 1) {
+    const thumbnailContainer = document.getElementById('imageThumbnails');
+    
+    if (thumbnailContainer) {
+      thumbnailContainer.classList.remove('hide');
+      
+      // Create thumbnails
+      thumbnailContainer.innerHTML = allImages.map((img, index) => 
+        `<img class="thumbnail ${index === 0 ? 'active' : ''}" 
+              src="${img.small}" 
+              alt="Product image ${index + 1}" 
+              data-index="${index}">`
+      ).join('');
+      
+      // Add thumbnail click handlers
+      thumbnailContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('thumbnail')) {
+          const index = parseInt(e.target.dataset.index);
+          showImage(index);
+        }
+      });
+    }
+  }
+}
+
+function showImage(index) {
+  if (index < 0 || index >= allImages.length) return;
+  
+  currentImageIndex = index;
+  const image = allImages[index];
+  
+  // Update main image
+  document.getElementById('productImage').src = image.small;
+  document.getElementById('productImageMedium').srcset = image.medium;
+  document.getElementById('productImageLarge').srcset = image.large;
+  
+  // Update active thumbnail
+  document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+    thumb.classList.toggle('active', i === index);
+  });
+}
+
 export default async function productDetails(productId) {
   try {
     // use findProductById to get the details for the current product
@@ -143,6 +212,9 @@ export default async function productDetails(productId) {
     
     // once we have the product details we can render out the HTML
     renderProductDetails();
+    
+    // Setup image carousel if multiple images exist
+    setupImageCarousel();
     
     // Update breadcrumb with product name
     let category = getParam("category");
@@ -187,6 +259,9 @@ export default async function productDetails(productId) {
     
     // Load product recommendations
     loadRecommendations();
+    
+    // Set up image carousel
+    setupImageCarousel();
   } catch (error) {
     console.error("Error in productDetails:", error);
     // Show error message to user if there's any other error

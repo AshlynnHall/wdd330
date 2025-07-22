@@ -15,11 +15,14 @@
       <section class="product-detail">
         <h3 id="productName"></h3>
         <h2 class="divider" id="productNameWithoutBrand"></h2>
-        <picture class="divider">
-          <source id="productImageLarge" media="(min-width: 768px)" srcset="">
-          <source id="productImageMedium" media="(min-width: 480px)" srcset="">
-          <img id="productImage" src="" alt="" />
-        </picture>
+        <div class="image-container">
+          <picture class="divider main-image">
+            <source id="productImageLarge" media="(min-width: 768px)" srcset="">
+            <source id="productImageMedium" media="(min-width: 480px)" srcset="">
+            <img id="productImage" src="" alt="" />
+          </picture>
+          <div class="image-thumbnails hide" id="imageThumbnails"></div>
+        </div>
         <div class="price-container">
           <p class="product-card__price" id="productFinalPrice"></p>
           <div class="discount-flag hide" id="discountFlag"></div>
