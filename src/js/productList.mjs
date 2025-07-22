@@ -31,7 +31,7 @@ function productCardTemplate(product) {
 }
 
 // Function to render the list of products
-function renderList(productList, selector) {
+export function renderList(productList, selector) {
   const element = document.querySelector(selector);
   if (element) {
     const htmlStrings = productList.map(productCardTemplate);

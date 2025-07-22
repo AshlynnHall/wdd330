@@ -14,6 +14,12 @@ export async function getData(category = "tents") {
   return data.Result;
 }
 
+export async function getSearchResults(searchTerm) {
+  const response = await fetch(baseURL + `products/search/${searchTerm}`);
+  const data = await convertToJson(response);
+  return data.Result;
+}
+
 export async function findProductById(id) {
   const response = await fetch(baseURL + `product/${id}`);
   const data = await convertToJson(response);

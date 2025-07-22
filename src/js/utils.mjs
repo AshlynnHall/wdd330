@@ -64,6 +64,8 @@ export async function loadHeaderFooter() {
       renderWithTemplate(headerTemplateFn, headerEl, null, () => {
         // Update cart count after header is loaded
         updateCartCount();
+        // Setup search functionality
+        setupSearch();
         resolve();
       });
     });
@@ -116,5 +118,22 @@ export function updateCartCount() {
     } else {
       cartCountElement.classList.remove("hide");
     }
+  }
+}
+
+// Setup search functionality
+export function setupSearch() {
+  const searchForm = document.getElementById("search-form");
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const searchInput = document.getElementById("search-input");
+      const searchTerm = searchInput.value.trim();
+      
+      if (searchTerm) {
+        // Redirect to product-list page with search parameter
+        window.location.href = `/product-list/index.html?search=${encodeURIComponent(searchTerm)}`;
+      }
+    });
   }
 }
