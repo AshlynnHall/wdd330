@@ -30,6 +30,9 @@ function renderCartContents() {
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   
+  // Add event listeners to remove buttons
+  addRemoveListeners();
+  
   // Calculate and display total
   renderCartTotal(cartItems);
 }
@@ -65,9 +68,35 @@ function cartItemTemplate(item) {
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">qty: 1</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
+  <span class="cart-remove" data-id="${item.Id}">X</span>
 </li>`;
 
   return newItem;
 }
 
+function removeFromCart(productId) {
+  let cartItems = getLocalStorage("so-cart") || [];
+  
+  // Find and remove the first item with matching ID
+  const itemIndex = cartItems.findIndex(item => item.Id === productId);
+  if (itemIndex > -1) {
+    cartItems.splice(itemIndex, 1);
+    setLocalStorage("so-cart", cartItems);
+    
+    // Re-render the cart
+    renderCartContents();
+  }
+}
+
+function addRemoveListeners() {
+  const removeButtons = document.querySelectorAll(".cart-remove");
+  removeButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const productId = e.target.getAttribute("data-id");
+      removeFromCart(productId);
+    });
+  });
+}
+
 renderCartContents();
+addRemoveListeners();

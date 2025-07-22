@@ -23,12 +23,52 @@ function addToCart() {
 function renderProductDetails() {
   document.getElementById("productName").textContent = product.Name;
   document.getElementById("productNameWithoutBrand").textContent = product.NameWithoutBrand;
-  document.getElementById("productImage").src = product.Image;
-  document.getElementById("productImage").alt = product.Name;
+  
+  const productImage = document.getElementById("productImage");
+  productImage.src = product.Image;
+  productImage.alt = product.Name;
+  
   document.getElementById("productFinalPrice").textContent = `$${product.FinalPrice}`;
   document.getElementById("productColorName").textContent = product.Colors[0].ColorName;
   document.getElementById("productDescriptionHtmlSimple").innerHTML = product.DescriptionHtmlSimple;
   document.getElementById("addToCart").setAttribute("data-id", product.Id);
+  
+  // Add discount indicator if there's a discount (same style as main page)
+  if (product.SuggestedRetailPrice > product.FinalPrice) {
+    const discountPercent = Math.round(((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100);
+    
+    // Make the product detail section relative for positioning
+    const productDetailSection = document.querySelector(".product-detail");
+    if (productDetailSection) {
+      productDetailSection.style.position = "relative";
+    }
+    
+    // Create and add discount badge (same style as main page)
+    const discountBadge = document.createElement("div");
+    discountBadge.style.cssText = "background: red; color: white; padding: 2px 4px; font-size: 12px; position: absolute; top: 75px; right: 15px; border: 2px solid black; z-index: 10;";
+    discountBadge.textContent = `-${discountPercent}%`;
+    productDetailSection.appendChild(discountBadge);
+  }
+}
+
+function renderProductNotFound(productId) {
+  const productDetailSection = document.querySelector(".product-detail");
+  if (productDetailSection) {
+    productDetailSection.style.display = "none";
+  }
+  
+  const main = document.querySelector("main");
+  if (main) {
+    const errorContainer = document.createElement("div");
+    errorContainer.className = "error-container";
+    errorContainer.innerHTML = `
+      <div class="error-message">
+        <h2>Product Not Found</h2>
+        <p>Sorry, we couldn't find the product you're looking for.</p>
+      </div>
+    `;
+    main.appendChild(errorContainer);
+  }
 }
 
 export default async function productDetails(productId) {
@@ -38,6 +78,7 @@ export default async function productDetails(productId) {
     
     if (!product) {
       console.error(`Product with ID ${productId} not found`);
+      renderProductNotFound(productId);
       return;
     }
     
@@ -51,5 +92,7 @@ export default async function productDetails(productId) {
     }
   } catch (error) {
     console.error("Error in productDetails:", error);
+    // Show error message to user if there's any other error
+    renderProductNotFound(productId || "unknown");
   }
 }

@@ -209,6 +209,27 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
+  position: relative;
+}
+
+.cart-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.cart-remove:hover {
+  background: darkred;
 }
 
 .cart-card__image {
@@ -256,3 +277,10 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* Error handling styles */
+.error-container {
+  padding: 2em;
+  text-align: center;
+}
+
