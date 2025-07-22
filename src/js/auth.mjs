@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { loginRequest } from "./externalServices.mjs";
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
@@ -16,7 +16,7 @@ export async function login(creds, redirect = "/") {
 
 export function isTokenValid(token) {
     if (token) {
-        const decoded = jwt_decode(token);
+        const decoded = jwtDecode(token);
         let currentDate = new Date();
         if (decoded.exp * 1000 < currentDate.getTime()) {
             return false;
