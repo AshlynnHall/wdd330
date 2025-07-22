@@ -35,7 +35,10 @@ export function renderWithTemplate(templateFn, parentElement, data, callback) {
   templateFn().then((html) => {
     parentElement.innerHTML = html;
     if (callback) {
-      callback(data);
+      // Use requestAnimationFrame to ensure DOM is updated before callback
+      requestAnimationFrame(() => {
+        callback(data);
+      });
     }
   });
 }
@@ -61,11 +64,23 @@ export async function loadHeaderFooter() {
   
   if (headerEl) {
     const headerPromise = new Promise((resolve) => {
-      renderWithTemplate(headerTemplateFn, headerEl, null, () => {
+      renderWithTemplate(headerTemplateFn, headerEl, null, async () => {
+        console.log("🏗️ Header template loaded, initializing components...");
         // Update cart count after header is loaded
         updateCartCount();
         // Setup search functionality
         setupSearch();
+        
+        // Initialize breadcrumb after header is fully loaded
+        try {
+          console.log("🏗️ Importing breadcrumb module...");
+          const { initializeBreadcrumb } = await import("./breadcrumb.mjs");
+          console.log("🏗️ Calling initializeBreadcrumb...");
+          initializeBreadcrumb();
+        } catch (error) {
+          console.error("🏗️ Breadcrumb initialization failed:", error);
+        }
+        
         resolve();
       });
     });

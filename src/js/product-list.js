@@ -1,6 +1,7 @@
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 import productList from "./productList.mjs";
 import { getSearchResults } from "./externalServices.mjs";
+import { showCategoryBreadcrumb, showSearchBreadcrumb } from "./simpleBreadcrumb.mjs";
 
 // Load header and footer
 loadHeaderFooter();
@@ -91,6 +92,11 @@ async function loadCategoryProducts(category) {
     const { renderList } = await import("./productList.mjs");
     renderList(products, ".product-list");
     
+    // Show breadcrumb for category
+    setTimeout(() => {
+      showCategoryBreadcrumb(category, products.length);
+    }, 500);
+    
     // Setup sort controls after products are loaded
     setupSortControls();
   } catch (error) {
@@ -111,10 +117,19 @@ async function loadSearchResults(searchTerm) {
       const { renderList } = await import("./productList.mjs");
       renderList(results, ".product-list");
       
+      // Show breadcrumb for search results
+      setTimeout(() => {
+        showSearchBreadcrumb(searchTerm, results.length);
+      }, 500);
+      
       // Setup sort controls after products are loaded
       setupSortControls();
     } else {
       element.innerHTML = `<li><p>No products found for "${searchTerm}". Try a different search term.</p></li>`;
+      // Show breadcrumb with 0 results
+      setTimeout(() => {
+        showSearchBreadcrumb(searchTerm, 0);
+      }, 500);
     }
   } catch (error) {
     console.error("Error loading search results:", error);

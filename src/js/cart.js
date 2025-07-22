@@ -1,7 +1,13 @@
 import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartCount } from "./utils.mjs";
+import { showCartBreadcrumb } from "./simpleBreadcrumb.mjs";
 
 // Load header and footer
-loadHeaderFooter();
+loadHeaderFooter().then(() => {
+  // Show cart breadcrumb after header loads
+  setTimeout(() => {
+    showCartBreadcrumb();
+  }, 200);
+});
 
 function renderCartContents() {
   let cartItems = getLocalStorage("so-cart");

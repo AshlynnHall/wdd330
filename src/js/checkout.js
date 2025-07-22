@@ -1,8 +1,14 @@
 import { loadHeaderFooter } from "./utils.mjs";
 import checkoutProcess from "./checkoutProcess.mjs";
+import { showCheckoutBreadcrumb } from "./simpleBreadcrumb.mjs";
 
 // Load header and footer
-loadHeaderFooter();
+loadHeaderFooter().then(() => {
+  // Show checkout breadcrumb after header loads
+  setTimeout(() => {
+    showCheckoutBreadcrumb();
+  }, 200);
+});
 
 // Initialize checkout process
 checkoutProcess.init("so-cart", ".order-summary");

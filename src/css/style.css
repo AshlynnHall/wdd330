@@ -192,6 +192,34 @@ button {
 
 /* End cart icon styles */
 
+/* Breadcrumb styles */
+.breadcrumb {
+  background-color: #f8f9fa;
+  padding: 8px 15px;
+  margin: 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--light-grey);
+  clear: both;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.breadcrumb a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+.breadcrumb span {
+  color: var(--dark-grey);
+}
+
+/* End breadcrumb styles */
+
 .mission {
   padding: 0 0.5em;
   /* margin: 0.5em 0; */

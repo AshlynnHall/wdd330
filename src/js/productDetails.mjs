@@ -1,5 +1,6 @@
 import { findProductById } from "./externalServices.mjs";
-import { setLocalStorage, getLocalStorage, animateCartIcon, updateCartCount } from "./utils.mjs";
+import { setLocalStorage, getLocalStorage, animateCartIcon, updateCartCount, getParam } from "./utils.mjs";
+import { showProductBreadcrumb } from "./simpleBreadcrumb.mjs";
 
 let product = {};
 
@@ -106,6 +107,38 @@ export default async function productDetails(productId) {
     
     // once we have the product details we can render out the HTML
     renderProductDetails();
+    
+    // Update breadcrumb with product name
+    let category = getParam("category");
+    
+    // If no category parameter, try to determine from product data or URL
+    if (!category) {
+      // Try to determine category from product category field
+      if (product.Category) {
+        category = product.Category.toLowerCase().replace(/\s+/g, '-');
+      } else {
+        // Fallback: try to determine from product ID patterns or default to 'tents'
+        if (productId.includes('tent') || productId.includes('ajax') || productId.includes('alpine') || productId.includes('talus') || productId.includes('rimrock')) {
+          category = 'tents';
+        } else if (productId.includes('backpack') || productId.includes('pack')) {
+          category = 'backpacks';
+        } else if (productId.includes('sleeping') || productId.includes('bag')) {
+          category = 'sleeping-bags';
+        } else if (productId.includes('hammock')) {
+          category = 'hammocks';
+        } else {
+          // Default fallback
+          category = 'tents';
+        }
+      }
+    }
+    
+    console.log("Product detail breadcrumb - Category:", category, "Product:", product.NameWithoutBrand || product.Name);
+    
+    // Show breadcrumb
+    setTimeout(() => {
+      showProductBreadcrumb(category, product.NameWithoutBrand || product.Name);
+    }, 200);
     
     // add a listener to Add to Cart button
     const addToCartButton = document.getElementById("addToCart");
