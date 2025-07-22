@@ -8,7 +8,7 @@ function convertToJson(res) {
   }
 }
 
-export async function getData(category = "tents") {
+export async function getProductsByCategory(category = "tents") {
   const response = await fetch(baseURL + `products/search/${category}`);
   const data = await convertToJson(response);
   return data.Result;
@@ -71,4 +71,23 @@ async function findProductInLocalData(id) {
   
   console.error("Product not found in local data either");
   return null;
+}
+
+export async function checkout(orderData) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(orderData)
+  };
+  
+  try {
+    const response = await fetch('http://server-nodejs.cit.byui.edu:3000/checkout', options);
+    const data = await convertToJson(response);
+    return data;
+  } catch (error) {
+    console.error("Error during checkout:", error);
+    throw error;
+  }
 }

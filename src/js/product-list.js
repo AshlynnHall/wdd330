@@ -1,6 +1,6 @@
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 import productList from "./productList.mjs";
-import { getSearchResults } from "./productData.mjs";
+import { getSearchResults } from "./externalServices.mjs";
 
 // Load header and footer
 loadHeaderFooter();
@@ -84,8 +84,8 @@ if (searchTerm) {
 // Function to load category products and setup sorting
 async function loadCategoryProducts(category) {
   try {
-    const { getData } = await import("./productData.mjs");
-    const products = await getData(category);
+    const { getProductsByCategory } = await import("./externalServices.mjs");
+    const products = await getProductsByCategory(category);
     currentProducts = products; // Store for sorting
     
     const { renderList } = await import("./productList.mjs");

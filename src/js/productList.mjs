@@ -1,4 +1,4 @@
-import { getData } from "./productData.mjs";
+import { getProductsByCategory } from "./externalServices.mjs";
 
 // Template function to create product card HTML
 function productCardTemplate(product) {
@@ -46,7 +46,7 @@ export function renderList(productList, selector) {
 export default async function productList(category, selector) {
   try {
     // Get the product data for the specified category
-    const products = await getData(category);
+    const products = await getProductsByCategory(category);
     
     // Render the product list to the specified selector
     renderList(products, selector);

@@ -1,4 +1,4 @@
-import { findProductById } from "./productData.mjs";
+import { findProductById } from "./externalServices.mjs";
 import { setLocalStorage, getLocalStorage, animateCartIcon, updateCartCount } from "./utils.mjs";
 
 let product = {};
