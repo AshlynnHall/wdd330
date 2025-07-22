@@ -36,12 +36,10 @@ export async function findProductById(id) {
     
     return data.Result;
   } catch (error) {
-    // Fallback to local data
     return findProductInLocalData(id);
   }
 }
 
-// Fallback function to search in local JSON files
 async function findProductInLocalData(id) {
   const categories = ['tents', 'backpacks', 'sleeping-bags', 'hammocks'];
   
@@ -56,7 +54,6 @@ async function findProductInLocalData(id) {
         }
       }
     } catch (error) {
-      // Continue searching other categories
     }
   }
   

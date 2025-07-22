@@ -1,7 +1,6 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 import { checkout } from "./externalServices.mjs";
 
-// Helper function to package cart items for checkout
 function packageItems(items) {
   return items.map(item => ({
     id: item.Id,
@@ -24,8 +23,6 @@ const checkoutProcess = {
     this.outputSelector = outputSelector;
     this.calculateItemSummary();
     this.displayOrderTotals();
-    
-    // Add event listener for zip code to calculate shipping and tax
     const zipInput = document.getElementById("zip");
     if (zipInput) {
       zipInput.addEventListener("blur", () => {
@@ -47,10 +44,8 @@ const checkoutProcess = {
   },
 
   calculateOrdertotal() {
-    // Calculate shipping: $10 for first item + $2 for each additional item
     this.shipping = this.itemCount > 0 ? 10 + ((this.itemCount - 1) * 2) : 0;
     
-    // Calculate tax: 6% of subtotal
     this.tax = this.subtotal * 0.06;
     
     this.displayOrderTotals();
@@ -77,11 +72,9 @@ const checkoutProcess = {
     const formData = new FormData(form);
     const cartItems = getLocalStorage(this.key) || [];
     
-    // Clean card number (remove spaces, dashes, etc.)
     const rawCardNumber = formData.get("cardNumber");
     const cleanCardNumber = rawCardNumber ? rawCardNumber.replace(/[\s-]/g, '') : '';
     
-    // Build the order object
     const orderData = {
       orderDate: new Date().toISOString(),
       fname: formData.get("fname"),
@@ -102,7 +95,6 @@ const checkoutProcess = {
     try {
       const response = await checkout(orderData);
       
-      // Success: clear cart and redirect to success page
       setLocalStorage(this.key, []);
       window.location.href = "success.html";
       

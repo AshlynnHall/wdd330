@@ -11,7 +11,6 @@ export default class Alert {
       }
       this.alerts = await response.json();
     } catch (error) {
-      // If alerts fail to load, continue without them
       this.alerts = [];
     }
   }

@@ -1,7 +1,3 @@
-/**
- * Breadcrumb implementation
- */
-
 export function setBreadcrumb(breadcrumbHtml) {
     const breadcrumbNav = document.getElementById('breadcrumb');
     const breadcrumbContent = document.getElementById('breadcrumb-content');

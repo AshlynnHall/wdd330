@@ -1,9 +1,7 @@
 import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartCount } from "./utils.mjs";
 import { showCartBreadcrumb } from "./breadcrumb.mjs";
 
-// Load header and footer
 loadHeaderFooter().then(() => {
-  // Show cart breadcrumb after header loads
   setTimeout(() => {
     showCartBreadcrumb();
   }, 200);
@@ -12,23 +10,21 @@ loadHeaderFooter().then(() => {
 function renderCartContents() {
   let cartItems = getLocalStorage("so-cart");
   
-  // Handle legacy single-item cart format (convert to array)
   if (cartItems && !Array.isArray(cartItems)) {
     cartItems = [cartItems];
-    setLocalStorage("so-cart", cartItems); // Update to new format
+    setLocalStorage("so-cart", cartItems); 
   }
   
-  // Update cart count display
+
   updateCartCount();
   
-  // Check if cart is empty or null
+
   if (!cartItems || cartItems.length === 0) {
     document.querySelector(".product-list").innerHTML = `
       <li class="cart-empty">
         <p>Your cart is empty</p>
         <a href="/index.html">Continue Shopping</a>
       </li>`;
-    // Hide the cart total
     document.querySelector(".cart-footer").classList.add("hide");
     return;
   }
@@ -36,13 +32,10 @@ function renderCartContents() {
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   
-  // Add event listeners to remove buttons
   addRemoveListeners();
   
-  // Add event listeners to quantity buttons
   addQuantityListeners();
   
-  // Calculate and display total
   renderCartTotal(cartItems);
 }
 
@@ -66,7 +59,6 @@ function renderCartTotal(cartItems) {
 }
 
 function cartItemTemplate(item) {
-  // Get different image sizes for responsive display
   const imageMedium = item.Images?.PrimaryMedium || item.Image || '';
   const imageSmall = item.Images?.PrimarySmall || item.Images?.PrimaryMedium || item.Image || '';
   
@@ -95,14 +87,11 @@ function cartItemTemplate(item) {
 
 function removeFromCart(productId) {
   let cartItems = getLocalStorage("so-cart") || [];
-  
-  // Find and remove the first item with matching ID
   const itemIndex = cartItems.findIndex(item => item.Id === productId);
   if (itemIndex > -1) {
     cartItems.splice(itemIndex, 1);
     setLocalStorage("so-cart", cartItems);
     
-    // Re-render the cart
     renderCartContents();
   }
 }
@@ -131,7 +120,6 @@ function addQuantityListeners() {
 function updateQuantity(productId, action) {
   let cartItems = getLocalStorage("so-cart") || [];
   
-  // Find the item in the cart
   const itemIndex = cartItems.findIndex(item => item.Id === productId);
   if (itemIndex > -1) {
     const item = cartItems[itemIndex];
@@ -143,7 +131,6 @@ function updateQuantity(productId, action) {
       if (currentQuantity > 1) {
         item.quantity = currentQuantity - 1;
       } else {
-        // If quantity would go to 0, remove the item
         cartItems.splice(itemIndex, 1);
         setLocalStorage("so-cart", cartItems);
         renderCartContents();
@@ -151,7 +138,6 @@ function updateQuantity(productId, action) {
       }
     }
     
-    // Update localStorage and re-render
     setLocalStorage("so-cart", cartItems);
     renderCartContents();
   }

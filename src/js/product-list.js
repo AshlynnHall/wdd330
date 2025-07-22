@@ -3,19 +3,16 @@ import productList from "./productList.mjs";
 import { getSearchResults } from "./externalServices.mjs";
 import { showCategoryBreadcrumb, showSearchBreadcrumb } from "./breadcrumb.mjs";
 
-// Load header and footer
 loadHeaderFooter();
 
-// Get parameters from URL
 const category = getParam("category");
 const searchTerm = getParam("search");
 
-// Store current products for sorting
 let currentProducts = [];
 
-// Function to sort products based on sort type
+
 function sortProducts(products, sortType) {
-  const sortedProducts = [...products]; // Create a copy to avoid mutating original
+  const sortedProducts = [...products]; 
   
   switch (sortType) {
     case "name-asc":
@@ -43,11 +40,10 @@ function sortProducts(products, sortType) {
         return priceB - priceA;
       });
     default:
-      return sortedProducts; // Return original order for "default"
+      return sortedProducts;
   }
 }
 
-// Function to setup sort dropdown event listener
 async function setupSortControls() {
   const sortSelect = document.getElementById("sort-select");
   if (sortSelect) {
@@ -55,52 +51,42 @@ async function setupSortControls() {
       const sortType = e.target.value;
       const sortedProducts = sortProducts(currentProducts, sortType);
       
-      // Re-render the product list with sorted products
       const { renderList } = await import("./productList.mjs");
       renderList(sortedProducts, ".product-list");
     });
   }
 }
 
-// Update the page title and load products based on parameter type
 if (searchTerm) {
-  // Handle search results
   document.getElementById("category-title").textContent = `Search Results: "${searchTerm}"`;
   document.title = `Sleep Outside | Search: ${searchTerm}`;
   
-  // Load search results
   loadSearchResults(searchTerm);
 } else if (category) {
-  // Handle category browsing
   const title = category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
   document.getElementById("category-title").textContent = `Top Products: ${title}`;
   document.title = `Sleep Outside | ${title}`;
   
-  // Load products for the category
   loadCategoryProducts(category);
 } else {
   document.getElementById("category-title").textContent = "Top Products";
 }
 
-// Function to load category products and setup sorting
 async function loadCategoryProducts(category) {
   try {
     const { getProductsByCategory } = await import("./externalServices.mjs");
     const products = await getProductsByCategory(category);
-    currentProducts = products; // Store for sorting
+    currentProducts = products; 
     
     const { renderList } = await import("./productList.mjs");
     renderList(products, ".product-list");
     
-    // Show breadcrumb for category
     setTimeout(() => {
       showCategoryBreadcrumb(category, products.length);
     }, 500);
     
-    // Setup sort controls after products are loaded
     setupSortControls();
   } catch (error) {
-    // Show user-friendly error message
     const element = document.querySelector(".product-list");
     if (element) {
       element.innerHTML = '<li><p>Unable to load products at this time. Please try again later.</p></li>';
@@ -108,35 +94,29 @@ async function loadCategoryProducts(category) {
   }
 }
 
-// Function to load and display search results
 async function loadSearchResults(searchTerm) {
   try {
     const results = await getSearchResults(searchTerm);
     const element = document.querySelector(".product-list");
     
     if (results && results.length > 0) {
-      currentProducts = results; // Store for sorting
+      currentProducts = results; 
       
-      // Use the same template as productList
       const { renderList } = await import("./productList.mjs");
       renderList(results, ".product-list");
       
-      // Show breadcrumb for search results
       setTimeout(() => {
         showSearchBreadcrumb(searchTerm, results.length);
       }, 500);
       
-      // Setup sort controls after products are loaded
       setupSortControls();
     } else {
       element.innerHTML = `<li><p>No products found for "${searchTerm}". Try a different search term.</p></li>`;
-      // Show breadcrumb with 0 results
       setTimeout(() => {
         showSearchBreadcrumb(searchTerm, 0);
       }, 500);
     }
-  } catch (error) {
-    // Show user-friendly error message  
+  } catch (error) { 
     document.querySelector(".product-list").innerHTML = `<li><p>Error loading search results. Please try again.</p></li>`;
   }
 }
