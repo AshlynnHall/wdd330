@@ -91,3 +91,30 @@ export async function checkout(orderData) {
     throw error;
   }
 }
+
+export async function loginRequest(creds) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(creds)
+  };
+  
+  const response = await fetch('http://server-nodejs.cit.byui.edu:3000/login', options);
+  const data = await convertToJson(response);
+  return data.accessToken;
+}
+
+export async function getOrders(token) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+  
+  const response = await fetch('http://server-nodejs.cit.byui.edu:3000/orders', options);
+  const data = await convertToJson(response);
+  return data;
+}
