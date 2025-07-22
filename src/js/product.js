@@ -14,7 +14,7 @@ if (!productId) {
     const addToCartButton = document.getElementById("addToCart");
     if (addToCartButton) {
       productId = addToCartButton.dataset.id;
-      console.log("Found product ID in data attribute:", productId);
+
       
       if (productId) {
         productDetails(productId);

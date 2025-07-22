@@ -51,6 +51,10 @@ export default async function productList(category, selector) {
     // Render the product list to the specified selector
     renderList(products, selector);
   } catch (error) {
-    console.error("Error loading product list:", error);
+    // Handle error silently or show user-friendly message
+    const element = document.querySelector(selector);
+    if (element) {
+      element.innerHTML = '<p>Unable to load products at this time. Please try again later.</p>';
+    }
   }
 }

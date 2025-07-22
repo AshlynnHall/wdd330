@@ -127,7 +127,6 @@ async function loadRecommendations() {
     
     recommendationsContainer.innerHTML = recommendationsHtml;
   } catch (error) {
-    console.error('Error loading recommendations:', error);
     recommendationsContainer.innerHTML = '<p>Unable to load recommendations.</p>';
   }
 }
@@ -205,7 +204,7 @@ export default async function productDetails(productId) {
     product = await findProductById(productId);
     
     if (!product) {
-      console.error(`Product with ID ${productId} not found`);
+      // Show error message to user if product not found
       renderProductNotFound(productId);
       return;
     }
@@ -241,7 +240,7 @@ export default async function productDetails(productId) {
       }
     }
     
-    console.log("Product detail breadcrumb - Category:", category, "Product:", product.NameWithoutBrand || product.Name);
+
     
     // Show breadcrumb
     setTimeout(() => {
@@ -263,7 +262,6 @@ export default async function productDetails(productId) {
     // Set up image carousel
     setupImageCarousel();
   } catch (error) {
-    console.error("Error in productDetails:", error);
     // Show error message to user if there's any other error
     renderProductNotFound(productId || "unknown");
   }

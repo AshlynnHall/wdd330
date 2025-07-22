@@ -1,14 +1,14 @@
 const baseURL = import.meta.env.VITE_SERVER_URL;
 
-async function convertToJson(res) {
+function convertToJson(res) {
   if (res.ok) {
     return res.json();
   } else {
-    throw new Error('Bad Response');
+    throw new Error("Bad Response");
   }
 }
 
-export async function getProductsByCategory(category = "tents") {
+export async function getData(category = "tents") {
   const response = await fetch(baseURL + `products/search/${category}`);
   const data = await convertToJson(response);
   return data.Result;
@@ -33,6 +33,7 @@ export async function findProductById(id) {
     }
     
     const data = await convertToJson(response);
+    
     return data.Result;
   } catch (error) {
     // Fallback to local data
@@ -55,55 +56,9 @@ async function findProductInLocalData(id) {
         }
       }
     } catch (error) {
-      // Continue to next category
+      // Continue searching other categories
     }
   }
   
   return null;
-}
-
-export async function checkout(orderData) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(orderData)
-  };
-  
-  try {
-    const checkoutURL = baseURL ? baseURL + 'checkout' : 'https://wdd330-backend.onrender.com/checkout';
-    const response = await fetch(checkoutURL, options);
-    const data = await convertToJson(response);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function loginRequest(creds) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(creds)
-  };
-  
-  const response = await fetch('http://server-nodejs.cit.byui.edu:3000/login', options);
-  const data = await convertToJson(response);
-  return data.accessToken;
-}
-
-export async function getOrders(token) {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  };
-  
-  const response = await fetch('http://server-nodejs.cit.byui.edu:3000/orders', options);
-  const data = await convertToJson(response);
-  return data;
 }

@@ -65,7 +65,6 @@ export async function loadHeaderFooter() {
   if (headerEl) {
     const headerPromise = new Promise((resolve) => {
       renderWithTemplate(headerTemplateFn, headerEl, null, async () => {
-        console.log("🏗️ Header template loaded, initializing components...");
         // Update cart count after header is loaded
         updateCartCount();
         // Setup search functionality

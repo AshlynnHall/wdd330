@@ -100,7 +100,11 @@ async function loadCategoryProducts(category) {
     // Setup sort controls after products are loaded
     setupSortControls();
   } catch (error) {
-    console.error("Error loading product list:", error);
+    // Show user-friendly error message
+    const element = document.querySelector(".product-list");
+    if (element) {
+      element.innerHTML = '<li><p>Unable to load products at this time. Please try again later.</p></li>';
+    }
   }
 }
 
@@ -132,7 +136,7 @@ async function loadSearchResults(searchTerm) {
       }, 500);
     }
   } catch (error) {
-    console.error("Error loading search results:", error);
+    // Show user-friendly error message  
     document.querySelector(".product-list").innerHTML = `<li><p>Error loading search results. Please try again.</p></li>`;
   }
 }
