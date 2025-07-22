@@ -651,4 +651,64 @@ footer {
   background-color: #3a4a0a;
 }
 
+/* First Visit Modal */
+.first-visit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2em;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+  margin: 1em;
+}
+
+.modal-content h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1em;
+}
+
+.modal-content p {
+  margin-bottom: 1.5em;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+.modal-button {
+  padding: 0.8em 1.5em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.modal-register {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.modal-close {
+  background-color: var(--light-grey);
+  color: var(--dark-grey);
+}
+
+.modal-button:hover {
+  opacity: 0.8;
+}
+
 

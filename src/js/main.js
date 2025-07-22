@@ -20,6 +20,42 @@ async function initializePage() {
 // Initialize the page
 initializePage();
 
+// Show first visit modal
+function showFirstVisitModal() {
+  if (!localStorage.getItem('hasVisited')) {
+    const modal = document.createElement('div');
+    modal.className = 'first-visit-modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>Welcome to Sleep Outside!</h2>
+        <p>Register today and enter our monthly giveaway for a chance to win outdoor gear worth $500!</p>
+        <p>Plus, get exclusive access to member-only deals and early product releases.</p>
+        <div class="modal-buttons">
+          <button class="modal-button modal-register">Register Now</button>
+          <button class="modal-button modal-close">Maybe Later</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle button clicks
+    modal.querySelector('.modal-register').addEventListener('click', () => {
+      alert('Registration feature coming soon!');
+      modal.remove();
+      localStorage.setItem('hasVisited', 'true');
+    });
+    
+    modal.querySelector('.modal-close').addEventListener('click', () => {
+      modal.remove();
+      localStorage.setItem('hasVisited', 'true');
+    });
+  }
+}
+
+// Show modal after page loads
+setTimeout(showFirstVisitModal, 1000);
+
 // Handle newsletter signup (does nothing)
 document.addEventListener('DOMContentLoaded', () => {
   const newsletterForm = document.getElementById('newsletter-form');
