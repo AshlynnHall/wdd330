@@ -298,3 +298,39 @@ footer {
   font-size: 1em;
 }
 
+/* Category card styles */
+.category-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+  gap: 1em;
+}
+
+.category-card {
+  flex: 1 1 200px;
+  max-width: 250px;
+  text-align: center;
+}
+
+.category-card a {
+  display: block;
+  padding: 2em 1em;
+  text-decoration: none;
+  color: var(--dark-grey);
+  transition: all 0.3s ease;
+}
+
+.category-card a:hover {
+  background-color: var(--light-grey);
+  transform: translateY(-2px);
+}
+
+.category-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1em;
+}
+
+

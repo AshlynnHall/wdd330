@@ -2,23 +2,30 @@ import { getData } from "./productData.mjs";
 
 // Template function to create product card HTML
 function productCardTemplate(product) {
+  // Handle different image field names
+  const imageUrl = product.Image || product.Images?.PrimaryLarge || '';
+  
+  // Handle different price field names
+  const finalPrice = product.FinalPrice || product.ListPrice || 0;
+  const suggestedPrice = product.SuggestedRetailPrice || product.FinalPrice || product.ListPrice || 0;
+  
   // Calculate discount percentage (choppy way)
   let discountHtml = "";
-  if (product.SuggestedRetailPrice > product.FinalPrice) {
-    const discountPercent = Math.round(((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100);
+  if (suggestedPrice > finalPrice) {
+    const discountPercent = Math.round(((suggestedPrice - finalPrice) / suggestedPrice) * 100);
     discountHtml = `<div style="background: red; color: white; padding: 2px 4px; font-size: 12px; position: absolute; top: 5px; right: 5px; border: 2px solid black;">-${discountPercent}%</div>`;
   }
   
   return `<li class="product-card" style="position: relative;">
-    <a href="product_pages/?product=${product.Id}">
+    <a href="../product_pages/?product=${product.Id}">
       ${discountHtml}
       <img
-        src="${product.Image}"
+        src="${imageUrl}"
         alt="${product.Name}"
       />
-      <h3 class="card__brand">${product.Brand.Name}</h3>
+      <h3 class="card__brand">${product.Brand?.Name || 'Unknown Brand'}</h3>
       <h2 class="card__name">${product.NameWithoutBrand}</h2>
-      <p class="product-card__price">$${product.FinalPrice}</p>
+      <p class="product-card__price">$${finalPrice}</p>
     </a>
   </li>`;
 }

@@ -1,0 +1,44 @@
+[
+  {
+    "Id": "HAM001",
+    "NameWithoutBrand": "Classic Camping Hammock",
+    "Name": "OutdoorLife Classic Camping Hammock",
+    "Image": "../images/noun_Hammock_791143.svg",
+    "SizesAvailable": {},
+    "Colors": [
+      {
+        "ColorCode": "01",
+        "ColorName": "Forest Green"
+      }
+    ],
+    "DescriptionHtmlSimple": "Relax in comfort with this durable camping hammock, perfect for backyard relaxation or wilderness adventures.",
+    "SuggestedRetailPrice": 89.99,
+    "FinalPrice": 69.99,
+    "Brand": {
+      "Id": "2001",
+      "LogoSrc": "../images/logos/outdoor-life-logo.jpg",
+      "Name": "OutdoorLife"
+    }
+  },
+  {
+    "Id": "HAM002",
+    "NameWithoutBrand": "Ultralight Travel Hammock",
+    "Name": "AdventureGear Ultralight Travel Hammock",
+    "Image": "../images/noun_Hammock_791143.svg",
+    "SizesAvailable": {},
+    "Colors": [
+      {
+        "ColorCode": "02",
+        "ColorName": "Navy Blue"
+      }
+    ],
+    "DescriptionHtmlSimple": "Lightweight and portable hammock designed for backpackers and travelers who want comfort without the weight.",
+    "SuggestedRetailPrice": 129.99,
+    "FinalPrice": 99.99,
+    "Brand": {
+      "Id": "2002",
+      "LogoSrc": "../images/logos/adventure-gear-logo.jpg",
+      "Name": "AdventureGear"
+    }
+  }
+]
