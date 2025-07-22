@@ -1,6 +1,6 @@
 import { findProductById } from "./externalServices.mjs";
 import { setLocalStorage, getLocalStorage, animateCartIcon, updateCartCount, getParam } from "./utils.mjs";
-import { showProductBreadcrumb } from "./simpleBreadcrumb.mjs";
+import { showProductBreadcrumb } from "./breadcrumb.mjs";
 
 let product = {};
 

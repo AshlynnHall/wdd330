@@ -71,15 +71,8 @@ export async function loadHeaderFooter() {
         // Setup search functionality
         setupSearch();
         
-        // Initialize breadcrumb after header is fully loaded
-        try {
-          console.log("🏗️ Importing breadcrumb module...");
-          const { initializeBreadcrumb } = await import("./breadcrumb.mjs");
-          console.log("🏗️ Calling initializeBreadcrumb...");
-          initializeBreadcrumb();
-        } catch (error) {
-          console.error("🏗️ Breadcrumb initialization failed:", error);
-        }
+        // Breadcrumb will be handled by individual page modules
+        // (cart.js, checkout.js, product-list.js, etc. using simpleBreadcrumb.mjs)
         
         resolve();
       });

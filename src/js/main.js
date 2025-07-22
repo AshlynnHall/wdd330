@@ -1,6 +1,6 @@
 import { loadHeaderFooter, updateCartCount } from "./utils.mjs";
 import Alert from "./Alert.mjs";
-import { hideBreadcrumb } from "./simpleBreadcrumb.mjs";
+import { hideBreadcrumb } from "./breadcrumb.mjs";
 
 // Load header and footer, then initialize alerts
 async function initializePage() {

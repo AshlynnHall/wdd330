@@ -1,5 +1,5 @@
 import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartCount } from "./utils.mjs";
-import { showCartBreadcrumb } from "./simpleBreadcrumb.mjs";
+import { showCartBreadcrumb } from "./breadcrumb.mjs";
 
 // Load header and footer
 loadHeaderFooter().then(() => {

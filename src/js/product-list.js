@@ -1,7 +1,7 @@
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 import productList from "./productList.mjs";
 import { getSearchResults } from "./externalServices.mjs";
-import { showCategoryBreadcrumb, showSearchBreadcrumb } from "./simpleBreadcrumb.mjs";
+import { showCategoryBreadcrumb, showSearchBreadcrumb } from "./breadcrumb.mjs";
 
 // Load header and footer
 loadHeaderFooter();

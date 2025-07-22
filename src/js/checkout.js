@@ -1,6 +1,6 @@
 import { loadHeaderFooter } from "./utils.mjs";
 import checkoutProcess from "./checkoutProcess.mjs";
-import { showCheckoutBreadcrumb } from "./simpleBreadcrumb.mjs";
+import { showCheckoutBreadcrumb } from "./breadcrumb.mjs";
 
 // Load header and footer
 loadHeaderFooter().then(() => {
@@ -19,19 +19,20 @@ if (checkoutForm) {
   checkoutForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     
+    // HTML form validation
+    const isValid = checkoutForm.checkValidity();
+    checkoutForm.reportValidity();
+    
+    if (!isValid) {
+      return; // Don't proceed if form is invalid
+    }
+    
     try {
       const response = await checkoutProcess.checkout(checkoutForm);
       console.log("Checkout successful:", response);
-      
-      // For now, just show an alert. In the next assignment, we'll handle this properly
-      alert("Order submitted successfully! Order ID: " + (response.orderId || "Generated"));
-      
-      // Optionally redirect to success page
-      // window.location.href = "success.html";
-      
     } catch (error) {
       console.error("Checkout failed:", error);
-      alert("There was an error processing your order. Please try again.");
+      // Error message is already shown in checkoutProcess
     }
   });
 }
