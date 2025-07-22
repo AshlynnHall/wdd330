@@ -94,6 +94,42 @@ function renderProductNotFound(productId) {
   }
 }
 
+async function loadRecommendations() {
+  const recommendedIds = ['989CG', '21KMF'];
+  const recommendationsContainer = document.getElementById('recommendations-list');
+  
+  if (!recommendationsContainer) return;
+  
+  try {
+    const recommendations = await Promise.all(
+      recommendedIds.map(id => findProductById(id))
+    );
+    
+    const validRecommendations = recommendations.filter(product => product !== null);
+    
+    if (validRecommendations.length === 0) {
+      recommendationsContainer.innerHTML = '<p>No recommendations available.</p>';
+      return;
+    }
+    
+    const recommendationsHtml = validRecommendations.map(product => `
+      <li class="product-card">
+        <a href="index.html?product=${product.Id}">
+          <img src="${product.Images?.PrimaryMedium || product.Image}" alt="${product.Name}" />
+          <h3 class="card__brand">${product.Brand?.Name || ''}</h3>
+          <h2 class="card__name">${product.NameWithoutBrand || product.Name}</h2>
+          <p class="product-card__price">$${product.FinalPrice || product.ListPrice || 0}</p>
+        </a>
+      </li>
+    `).join('');
+    
+    recommendationsContainer.innerHTML = recommendationsHtml;
+  } catch (error) {
+    console.error('Error loading recommendations:', error);
+    recommendationsContainer.innerHTML = '<p>Unable to load recommendations.</p>';
+  }
+}
+
 export default async function productDetails(productId) {
   try {
     // use findProductById to get the details for the current product
@@ -140,11 +176,17 @@ export default async function productDetails(productId) {
       showProductBreadcrumb(category, product.NameWithoutBrand || product.Name);
     }, 200);
     
+    // Load product recommendations
+    await loadRecommendations();
+    
     // add a listener to Add to Cart button
     const addToCartButton = document.getElementById("addToCart");
     if (addToCartButton) {
       addToCartButton.addEventListener("click", addToCart);
     }
+    
+    // Load product recommendations
+    loadRecommendations();
   } catch (error) {
     console.error("Error in productDetails:", error);
     // Show error message to user if there's any other error

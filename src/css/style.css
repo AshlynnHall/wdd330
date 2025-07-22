@@ -711,4 +711,23 @@ footer {
   opacity: 0.8;
 }
 
+/* Product Recommendations */
+.product-recommendations {
+  padding: 2em 1em;
+  background-color: #f9f9f9;
+  margin-top: 2em;
+}
+
+.product-recommendations h3 {
+  text-align: center;
+  color: var(--secondary-color);
+  margin-bottom: 1.5em;
+}
+
+.product-recommendations .product-list {
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 
