@@ -21,7 +21,54 @@ export async function getSearchResults(searchTerm) {
 }
 
 export async function findProductById(id) {
-  const response = await fetch(baseURL + `product/${id}`);
-  const data = await convertToJson(response);
-  return data;
+  try {
+    console.log("Fetching product with ID:", id, "from URL:", baseURL + `product/${id}`);
+    
+    if (!baseURL) {
+      console.warn("No API base URL found, falling back to local data");
+      throw new Error("No API base URL");
+    }
+    
+    const response = await fetch(baseURL + `product/${id}`);
+    console.log("Response status:", response.status, response.statusText);
+    
+    if (!response.ok) {
+      throw new Error(`API response not ok: ${response.status}`);
+    }
+    
+    const data = await convertToJson(response);
+    console.log("Raw API response:", data);
+    
+    return data.Result;
+  } catch (error) {
+    console.error("Error fetching product from API:", error);
+    console.log("Falling back to local data search");
+    
+    // Fallback to local data
+    return findProductInLocalData(id);
+  }
+}
+
+// Fallback function to search in local JSON files
+async function findProductInLocalData(id) {
+  const categories = ['tents', 'backpacks', 'sleeping-bags', 'hammocks'];
+  
+  for (const category of categories) {
+    try {
+      const response = await fetch(`/json/${category}.json`);
+      if (response.ok) {
+        const products = await response.json();
+        const product = products.find(p => p.Id === id);
+        if (product) {
+          console.log("Found product in local data:", product);
+          return product;
+        }
+      }
+    } catch (error) {
+      console.warn(`Could not load local data for ${category}:`, error);
+    }
+  }
+  
+  console.error("Product not found in local data either");
+  return null;
 }

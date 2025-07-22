@@ -2,14 +2,16 @@ import { getData } from "./productData.mjs";
 
 // Template function to create product card HTML
 function productCardTemplate(product) {
-  // Use PrimaryMedium for product list as specified
-  const imageUrl = product.Images?.PrimaryMedium || product.Image || '';
+  // Get different image sizes
+  const imageLarge = product.Images?.PrimaryLarge || product.Image || '';
+  const imageMedium = product.Images?.PrimaryMedium || product.Image || '';
+  const imageSmall = product.Images?.PrimarySmall || product.Images?.PrimaryMedium || product.Image || '';
   
   // Handle different price field names
   const finalPrice = product.FinalPrice || product.ListPrice || 0;
   const suggestedPrice = product.SuggestedRetailPrice || product.FinalPrice || product.ListPrice || 0;
   
-  // Calculate discount percentage (choppy way)
+  // Calculate discount percentage
   let discountHtml = "";
   if (suggestedPrice > finalPrice) {
     const discountPercent = Math.round(((suggestedPrice - finalPrice) / suggestedPrice) * 100);
@@ -19,10 +21,11 @@ function productCardTemplate(product) {
   return `<li class="product-card" style="position: relative;">
     <a href="../product_pages/?product=${product.Id}">
       ${discountHtml}
-      <img
-        src="${imageUrl}"
-        alt="${product.Name}"
-      />
+      <picture>
+        <source media="(min-width: 768px)" srcset="${imageLarge}">
+        <source media="(min-width: 480px)" srcset="${imageMedium}">
+        <img src="${imageSmall}" alt="${product.Name}" />
+      </picture>
       <h3 class="card__brand">${product.Brand?.Name || 'Unknown Brand'}</h3>
       <h2 class="card__name">${product.NameWithoutBrand}</h2>
       <p class="product-card__price">$${finalPrice}</p>

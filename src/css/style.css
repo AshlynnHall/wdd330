@@ -25,6 +25,18 @@ body {
 img {
   max-width: 100%;
 }
+
+/* Responsive image styles */
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -190,6 +202,41 @@ button {
 .products {
   padding: 0.5em;
 }
+
+/* Products header with sorting controls */
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-controls label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.sort-controls select {
+  padding: 8px 12px;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.sort-controls select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
 .product-list {
   display: flex;
   flex-flow: row wrap;
@@ -230,7 +277,8 @@ button {
   margin: auto;
 }
 
-.product-detail img {
+.product-detail img,
+.product-detail picture {
   width: 100%;
 }
 
@@ -284,11 +332,58 @@ button {
 .cart-card__quantity {
   grid-row: 1;
   grid-column: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-btn:hover {
+  background: #d69b4c;
+}
+
+.qty-display {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+/* Responsive sort controls */
+@media screen and (max-width: 500px) {
+  .products-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+  
+  .sort-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .sort-controls select {
+    flex: 1;
+    max-width: 200px;
+  }
 }
 
 @media screen and (min-width: 500px) {
@@ -301,7 +396,7 @@ button {
   }
   .cart-card {
     font-size: inherit;
-    grid-template-columns: 150px auto 15%;
+    grid-template-columns: 150px auto 20%;
   }
 }
 

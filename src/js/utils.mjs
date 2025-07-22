@@ -109,7 +109,11 @@ export function updateCartCount() {
   const cartCountElement = document.getElementById("cart-count");
   
   if (cartCountElement) {
-    const count = cartItems.length;
+    // Calculate total quantity of all items
+    const count = cartItems.reduce((total, item) => {
+      return total + (item.quantity || 1);
+    }, 0);
+    
     cartCountElement.textContent = count;
     
     // Hide the count if cart is empty

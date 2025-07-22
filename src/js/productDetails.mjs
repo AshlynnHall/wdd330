@@ -7,8 +7,18 @@ function addToCart() {
   // Get existing cart items or start with an empty array
   let cartItems = getLocalStorage("so-cart") || [];
   
-  // Add the current product to the cart
-  cartItems.push(product);
+  // Check if this product is already in the cart
+  const existingItemIndex = cartItems.findIndex(item => item.Id === product.Id);
+  
+  if (existingItemIndex > -1) {
+    // Product already exists, increase quantity
+    const currentQuantity = cartItems[existingItemIndex].quantity || 1;
+    cartItems[existingItemIndex].quantity = currentQuantity + 1;
+  } else {
+    // New product, add to cart with quantity of 1
+    const productToAdd = { ...product, quantity: 1 };
+    cartItems.push(productToAdd);
+  }
   
   // Save the updated cart back to localStorage
   setLocalStorage("so-cart", cartItems);
@@ -24,10 +34,21 @@ function renderProductDetails() {
   document.getElementById("productName").textContent = product.Name;
   document.getElementById("productNameWithoutBrand").textContent = product.NameWithoutBrand;
   
+  // Set up responsive images
   const productImage = document.getElementById("productImage");
-  // Use PrimaryLarge for product detail as specified
-  productImage.src = product.Images?.PrimaryLarge || product.Image || '';
+  const productImageMedium = document.getElementById("productImageMedium");
+  const productImageLarge = document.getElementById("productImageLarge");
+  
+  // Get different image sizes
+  const imageLarge = product.Images?.PrimaryLarge || product.Image || '';
+  const imageMedium = product.Images?.PrimaryMedium || product.Image || '';
+  const imageSmall = product.Images?.PrimarySmall || product.Images?.PrimaryMedium || product.Image || '';
+  
+  // Set the image sources for responsive display
+  productImage.src = imageSmall;
   productImage.alt = product.Name;
+  productImageMedium.srcset = imageMedium;
+  productImageLarge.srcset = imageLarge;
   
   document.getElementById("productFinalPrice").textContent = `$${product.FinalPrice || product.ListPrice || 0}`;
   document.getElementById("productColorName").textContent = product.Colors[0]?.ColorName || 'N/A';
