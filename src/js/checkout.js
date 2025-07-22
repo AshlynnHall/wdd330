@@ -19,20 +19,17 @@ if (checkoutForm) {
   checkoutForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     
-    // HTML form validation
-    const isValid = checkoutForm.checkValidity();
-    checkoutForm.reportValidity();
-    
-    if (!isValid) {
-      return; // Don't proceed if form is invalid
+    // Simple validation
+    if (!checkoutForm.checkValidity()) {
+      checkoutForm.reportValidity();
+      return;
     }
     
+    // Submit the form
     try {
-      const response = await checkoutProcess.checkout(checkoutForm);
-      console.log("Checkout successful:", response);
+      await checkoutProcess.checkout(checkoutForm);
     } catch (error) {
-      console.error("Checkout failed:", error);
-      // Error message is already shown in checkoutProcess
+      // Error handled in checkoutProcess
     }
   });
 }

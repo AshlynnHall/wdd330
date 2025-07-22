@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 import { checkout } from "./externalServices.mjs";
 
 // Helper function to package cart items for checkout
@@ -77,6 +77,10 @@ const checkoutProcess = {
     const formData = new FormData(form);
     const cartItems = getLocalStorage(this.key) || [];
     
+    // Clean card number (remove spaces, dashes, etc.)
+    const rawCardNumber = formData.get("cardNumber");
+    const cleanCardNumber = rawCardNumber ? rawCardNumber.replace(/[\s-]/g, '') : '';
+    
     // Build the order object
     const orderData = {
       orderDate: new Date().toISOString(),
@@ -86,7 +90,7 @@ const checkoutProcess = {
       city: formData.get("city"),
       state: formData.get("state"),
       zip: formData.get("zip"),
-      cardNumber: formData.get("cardNumber"),
+      cardNumber: cleanCardNumber,
       expiration: formData.get("expiration"),
       code: formData.get("code"),
       items: packageItems(cartItems),
@@ -97,9 +101,14 @@ const checkoutProcess = {
 
     try {
       const response = await checkout(orderData);
+      
+      // Success: clear cart and redirect to success page
+      setLocalStorage(this.key, []);
+      window.location.href = "success.html";
+      
       return response;
     } catch (error) {
-      console.error("Checkout failed:", error);
+      alert("Order failed. Please try again.");
       throw error;
     }
   }

@@ -9,9 +9,6 @@ export function setBreadcrumb(breadcrumbHtml) {
     if (breadcrumbNav && breadcrumbContent) {
         breadcrumbContent.innerHTML = breadcrumbHtml;
         breadcrumbNav.style.display = 'block';
-        console.log("Breadcrumb set:", breadcrumbHtml);
-    } else {
-        console.log("Breadcrumb elements not found");
     }
 }
 

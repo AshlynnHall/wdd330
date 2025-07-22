@@ -1,10 +1,10 @@
 const baseURL = import.meta.env.VITE_SERVER_URL;
 
-function convertToJson(res) {
+async function convertToJson(res) {
   if (res.ok) {
     return res.json();
   } else {
-    throw new Error("Bad Response");
+    throw new Error('Bad Response');
   }
 }
 
@@ -83,11 +83,11 @@ export async function checkout(orderData) {
   };
   
   try {
-    const response = await fetch('http://server-nodejs.cit.byui.edu:3000/checkout', options);
+    const checkoutURL = baseURL ? baseURL + 'checkout' : 'https://wdd330-backend.onrender.com/checkout';
+    const response = await fetch(checkoutURL, options);
     const data = await convertToJson(response);
     return data;
   } catch (error) {
-    console.error("Error during checkout:", error);
     throw error;
   }
 }
