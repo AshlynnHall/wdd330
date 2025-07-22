@@ -25,11 +25,12 @@ function renderProductDetails() {
   document.getElementById("productNameWithoutBrand").textContent = product.NameWithoutBrand;
   
   const productImage = document.getElementById("productImage");
-  productImage.src = product.Image;
+  // Use PrimaryLarge for product detail as specified
+  productImage.src = product.Images?.PrimaryLarge || product.Image || '';
   productImage.alt = product.Name;
   
-  document.getElementById("productFinalPrice").textContent = `$${product.FinalPrice}`;
-  document.getElementById("productColorName").textContent = product.Colors[0].ColorName;
+  document.getElementById("productFinalPrice").textContent = `$${product.FinalPrice || product.ListPrice || 0}`;
+  document.getElementById("productColorName").textContent = product.Colors[0]?.ColorName || 'N/A';
   document.getElementById("productDescriptionHtmlSimple").innerHTML = product.DescriptionHtmlSimple;
   document.getElementById("addToCart").setAttribute("data-id", product.Id);
   

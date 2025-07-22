@@ -2,8 +2,8 @@ import { getData } from "./productData.mjs";
 
 // Template function to create product card HTML
 function productCardTemplate(product) {
-  // Handle different image field names
-  const imageUrl = product.Image || product.Images?.PrimaryLarge || '';
+  // Use PrimaryMedium for product list as specified
+  const imageUrl = product.Images?.PrimaryMedium || product.Image || '';
   
   // Handle different price field names
   const finalPrice = product.FinalPrice || product.ListPrice || 0;
