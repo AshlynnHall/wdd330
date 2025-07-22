@@ -14,6 +14,63 @@
     <main class="divider">
       <section class="products">
         <h2>Review & Place your Order</h2>
+        
+        <form id="checkout-form">
+          <fieldset class="shipping">
+            <legend>Shipping</legend>
+            <label for="fname">First Name <span class="required">*</span></label>
+            <input type="text" id="fname" name="fname" required>
+            
+            <label for="lname">Last Name <span class="required">*</span></label>
+            <input type="text" id="lname" name="lname" required>
+            
+            <label for="street">Street <span class="required">*</span></label>
+            <input type="text" id="street" name="street" required>
+            
+            <label for="city">City <span class="required">*</span></label>
+            <input type="text" id="city" name="city" required>
+            
+            <label for="state">State <span class="required">*</span></label>
+            <input type="text" id="state" name="state" required>
+            
+            <label for="zip">Zip <span class="required">*</span></label>
+            <input type="text" id="zip" name="zip" required>
+          </fieldset>
+          
+          <fieldset class="payment">
+            <legend>Payment</legend>
+            <label for="cardNumber">Card Number <span class="required">*</span></label>
+            <input type="text" id="cardNumber" name="cardNumber" required value="1234123412341234">
+            
+            <label for="expiration">Expiration <span class="required">*</span></label>
+            <input type="text" id="expiration" name="expiration" placeholder="MM/YY" required value="12/25">
+            
+            <label for="code">Security Code <span class="required">*</span></label>
+            <input type="text" id="code" name="code" required value="123">
+          </fieldset>
+          
+          <fieldset class="order-summary">
+            <legend>Order Summary</legend>
+            <div class="summary-line">
+              <span>Item Subtotal(<span id="num-items">0</span>)</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Shipping Estimate</span>
+              <span id="shipping-estimate">$0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Tax</span>
+              <span id="tax-amount">$0.00</span>
+            </div>
+            <div class="summary-line total">
+              <span>Order Total</span>
+              <span id="order-total">$0.00</span>
+            </div>
+          </fieldset>
+          
+          <button type="submit" class="checkout-submit">Checkout</button>
+        </form>
       </section>
     </main>
 
