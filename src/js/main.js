@@ -19,3 +19,14 @@ async function initializePage() {
 
 // Initialize the page
 initializePage();
+
+// Handle newsletter signup (does nothing)
+document.addEventListener('DOMContentLoaded', () => {
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Do nothing - just prevent the form from submitting
+    });
+  }
+});
